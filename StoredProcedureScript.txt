@@ -1,0 +1,22 @@
+USE [TaskManagementSystem]
+GO
+/****** Object:  StoredProcedure [dbo].[SPTasksAndProject]    Script Date: 10/13/2017 4:03:36 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[SPTasksAndProject]	
+AS
+BEGIN
+    Select 
+	    TaskID,
+		T.ProjectID, 
+		TaskName, 
+		TaskDescription, 
+		TaskDuration,
+		ProjectName
+	From Task T Inner Join Project P
+		on T.ProjectID = P.ProjectID
+	Order by T.TaskID 
+END

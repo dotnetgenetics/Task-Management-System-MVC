@@ -1,0 +1,84 @@
+﻿@model TaskManagementSystemUsingEFMVC.Models.TaskAndTaskViewModel
+
+@{
+    ViewBag.Title = "Task Entry Form";   
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#Save").click(function () {
+            $("form").attr("action", "/Task/Create");
+        });
+
+        $("#Update").click(function () {
+            $("form").attr("action", "/Task/Update");
+        });
+
+        $("#Delete").click(function () {
+            $("form").attr("action", "/Task/Delete");
+        });
+
+        $("#Refresh").click(function () {
+            $("form").attr("action", "/Task/Refresh");
+        });
+    });
+</script>
+
+<div class="container">
+    <br />
+    <div class="row">
+
+    </div>
+    <div class="row">
+        @using (@Ajax.BeginForm(new AjaxOptions()))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Task.TaskID)
+
+            <div class="form-group row">
+                @Html.Label("Task Name:",new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Task.TaskName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group row">
+               @Html.Label("Description:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Task.TaskDescription, new { @class = "form-control", @rows = "10" })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.Label("Duration:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Task.TaskDuration, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group row">
+                @Html.Label("Project:", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Task.ProjectID, Model.SelectList, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="Save" type="submit" value="Create" class="btn btn-primary" />
+                    <input id="Update" type="submit" value="Update" class="btn btn-info" />
+                    <input id="Delete" type="submit" value="Delete" class="btn btn-danger" />
+                    <input id="Refresh" type="submit" value="Refresh" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div id="taskListing" class="row">
+        <div class="table-responsive">
+            @{
+                Html.RenderPartial("TaskListing");
+            }
+        </div>
+    </div>
+</div>
+
+
